@@ -168,7 +168,6 @@ BRAINTREE_MERCHANT_ID = ''  # Merchant ID
 BRAINTREE_PUBLIC_KEY = ''   # Public Key
 BRAINTREE_PRIVATE_KEY = ''  # Private key
 
-
 import braintree
 
 BRAINTREE_CONF = braintree.Configuration(
