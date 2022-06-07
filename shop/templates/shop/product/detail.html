@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block title %}
+  {{ product.name }}
+{% endblock %}
+
+
+{% block category-display %}{% endblock %}
+
+{% block carousel %}{% endblock %}
+
+{% block page-content %}
+<section class="single-product">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<ol class="breadcrumb">
+					<li><a href="{% url 'shop:index' %}">Home</a></li>
+					<li><a href="{% url 'shop:product_list' %}">Shop</a></li>
+					<li class="active">Single Product</li>
+				</ol>
+			</div>
+		</div>
+		<div class="row mt-20">
+			<div class="col-md-5">
+				<div class="single-product-slider">
+					<div id='carousel-custom' class='carousel slide' data-ride='carousel'>
+						<div class='carousel-outer'>
+							<!-- me art lab slider -->
+							<div class='carousel-inner '>
+								<div class='item active'>
+									<img src="{% if product.image %}{{ product.image.url }}{% else %}
+                  					{% static 'img/no_image.png' %}{% endif %}" alt='' data-zoom-image="{{ product.image.url }}" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-7">
+				<div class="single-product-details">
+					<h2>{{ product.name }}</h2>
+					<p class="product-price"><i class="tf-ion-ios-pricetags"></i>${{ product.price }}</p>
+					
+					<p class="product-description mt-20">
+						{{ product.description|linebreaks|slice:":255" }}....
+					</p>
+					<div class="product-category">
+						<span>Categories:</span>
+						<ul>
+							
+							<li><a href="{{ product.category.get_absolute_url }}">{{ product.category }}</a></li>
+						</ul>
+					</div>
+					<form action="{% url 'cart:cart_add' product.id %}" method="post">
+						{% csrf_token %}
+						<div class="product-quantity">
+							<span>Quantity:</span>
+							<div class="product-quantity-slider">
+								<span >{{ cart_product_form.quantity}}</span>
+							</div>
+						</div>
+					
+						<input class="btn btn-main mt-20" type="submit" value="Add to cart">
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="tabCommon mt-20">
+					<ul class="nav nav-tabs">
+						<li class="active"><a data-toggle="tab" href="#details" aria-expanded="true">Details</a></li>
+					</ul>
+					<div class="tab-content patternbg">
+						<div id="details" class="tab-pane fade active in">
+							<h4>Product Description</h4>
+							<p>{{ product.description|linebreaks }}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+{% endblock %}
+
+{% block call-to-action %}{% endblock %}
+

@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% load static %}
+{% load templatehelpers %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+  {% if category %}
+    {{ category.name }}
+  {% else %}
+    Products
+  {% endif %}
+{% endblock %}
+
+ 
+
+{% block page-content %}
+<section class="page-header">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="content">
+					<h1 class="page-name">Shop</h1>
+					<ol class="breadcrumb">
+						<li><a href="{% url 'shop:index' %}">Home</a></li>
+						<li class="active">shop</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+	<section class="products section">
+		<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				
+				<div class="widget product-category">
+     
+					<h4 class="widget-title">Categories</h4>
+					<div class="panel-group commonAccordion" id="accordion" role="tablist" aria-multiselectable="true">
+					  	<div class="panel panel-default">
+						    <div class="panel-heading" role="tab" id="headingOne">
+						      	<h4 class="panel-title">
+						        	<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+						          Select
+						        	</a>
+						      	</h4>
+						    </div>
+							<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+							<div id="sidebar" class="panel-body">
+							<ul>
+							<li {% if not category %}class="selected"{% endif %}>
+								<a href="{% url 'shop:product_list' %} " style="padding-left: 5%;">All</a>
+							</li>
+							{% for c in categories %}
+								<li {% if category.slug == c.slug %} class="selected"{% endif %}>
+								<a style="padding-left: 5%;" href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+								</li>
+							{% endfor %}
+							</ul>			
+							</div>
+					    </div>
+					  </div>  
+					</div>
+					
+				</div>
+				<div class="widget">
+					<h4 class="widget-title">Sort By</h4>
+					
+					<form method="get">
+						{{ filter.form|crispy }}
+						<button class="btn btn-main pull-left" style="width: 100% ;" type="submit">Sort</button>
+					  </form>
+	            </div>
+			</div>
+
+		<div class="col-md-9">
+			<div class="row">
+      		{% for product in page_obj %}	
+			<div class="col-md-4">
+				<div class="product-item">
+					<div class="product-thumb">
+						<img class="img-responsive" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" alt="product-img" />
+						<div class="preview-meta">
+							<ul>
+								<li>
+									<a href="{{ product.get_absolute_url }}"><i class="tf-ion-ios-search-strong"></i></a>
+								</li>
+								
+							</ul>
+                      	</div>
+					</div>
+					<div class="product-content">
+						<a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
+						<p class="price"><i class="tf-ion-ios-pricetags"></i> ${{ product.price }}</p>
+					</div>
+				</div>
+			</div>
+      {% endfor %}
+
+		<!-- Modal -->
+		<div class="modal product-modal fade" id="product-modal">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<i class="tf-ion-close"></i>
+			</button>
+		  	<div class="modal-dialog " role="document">
+		    	<div class="modal-content">
+			      	<div class="modal-body">
+			        	<div class="row">
+			        		<div class="col-md-8 col-sm-6 col-xs-12">
+			        			<div class="modal-image">
+				        			<img class="img-responsive" src="images/shop/products/modal-product.jpg" alt="product-img" />
+			        			</div>
+			        		</div>
+			        		<div class="col-md-4 col-sm-6 col-xs-12">
+			        			<div class="product-short-details">
+			        				<h2 class="product-title">GM Pendant, Basalt Grey</h2>
+			        				<p class="product-price">$200</p>
+			        				<p class="product-short-description">
+			        					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem iusto nihil cum. Illo laborum numquam rem aut officia dicta cumque.
+			        				</p>
+			        				<a href="cart.html" class="btn btn-main">Add To Cart</a>
+			        				<a href="product-single.html" class="btn btn-transparent">View Product Details</a>
+			        			</div>
+			        		</div>
+			        	</div>
+			        </div>
+		    	</div>
+		  	</div>
+		</div><!-- /.modal -->
+
+				</div>				
+			</div>
+		
+		</div>
+	</div>
+</section>
+<!-- Pagination -->
+<nav class="pagination-container">
+<div class="pagination">
+	{% if page_obj.has_previous %}
+				<a class="pagination-newer" href="{% relative_url page_obj.previous_page_number 'page' request.GET.urlencode %}">PREV</a>
+				{% endif %}
+				<span class="pagination-inner">
+					
+				
+					{% for page in page_obj.paginator.page_range %}
+					
+					{% if page == page_obj.number %}
+					<a class="pagination-active" href="{% relative_url page 'page' request.GET.urlencode %}">{{ page }}</a>
+					{% elif page != page_obj.number %}
+					<a href="{% relative_url page 'page' request.GET.urlencode %}">{{ page }}</a>
+					{% endif %}
+					{% endfor %}
+					
+				</span>
+				{% if page_obj.has_next %}
+				<a class="pagination-older" href="{% relative_url page_obj.next_page_number 'page' request.GET.urlencode %}">NEXT</a>
+				{% endif %}
+		</div>
+	</nav>
+
+<!-- <div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+		{% for page in page_obj.paginator.page_range %}
+		<li class="page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+		{% endfor %}
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div> -->
+
+		
+    {% endblock %}
+
+	{% block call-to-action %}{% endblock %}
+
+
+

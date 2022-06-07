@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Payment canceled{% endblock %}
+
+{% block page-content %}
+<section class="page-wrapper success-msg">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="block text-center">
+        	<i class="iconify" data-icon="ion:close-circle" style="color: red; font-size: 15vh;"></i>
+          <h2 class="text-center">Your payment has failed</h2>
+          <p>There was a problem processing your payment. Payment has been canceled.</p>
+          <a href="{% url 'shop:product_list' %}" class="btn btn-main mt-20">Back to shop</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section><!-- /.page-warpper -->
+{% endblock %}
+
+{% block call-to-action %}{% endblock %}

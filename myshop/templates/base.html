@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		
+		{% load bootstrap5 %}
+		{% load static %}
+		{% bootstrap_css %}
+		{% bootstrap_javascript %}
+  <!-- Basic Page Needs
+  ================================================== -->
+  <meta charset="utf-8">
+  <title>{% block title %} MyShop {% endblock %}</title>
+
+  <!-- Mobile Specific Metas
+  ================================================== -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Construction Html5 Template">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="author" content="Themefisher">
+  <meta name="generator" content="Themefisher Constra HTML Template v1.0">
+  
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png" />
+ 
+  <!-- Themefisher Icon font -->
+  <link
+  rel="stylesheet" href="{% static 'plugins/themefisher-font/style.css' %}"
+/>
+<!-- bootstrap.min css -->
+<link rel="stylesheet" href="{% static 'plugins/bootstrap/css/bootstrap.min.css' %}"/>
+
+<!-- Animate css -->
+<link rel="stylesheet" href="{% static 'plugins/animate/animate.css' %}" />
+<!-- Slick Carousel -->
+<link rel="stylesheet" href="{% static 'plugins/slick/slick.css' %}" />
+<link
+  rel="stylesheet"
+  href="{% static 'plugins/slick/slick-theme.css' %}"
+/>
+
+<!-- Main Stylesheet -->
+<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+
+
+<style>
+#sidebar ul li.selected {
+    background:#000203;
+    border-radius:4px;
+}
+
+#sidebar ul li.selected a {
+    color:#fff;
+}
+</style>
+
+</head>
+
+<body id="body">
+
+<!-- Start Top Header Bar -->
+<section class="top-header">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4 col-xs-12 col-sm-4">
+				<div class="contact-number">
+					<i class="tf-ion-ios-telephone"></i>
+					<span>0129- 12323-123123</span>
+					
+				</div>
+			</div>
+			<div class="col-md-4 col-xs-12 col-sm-4">
+				<!-- Site Logo -->
+				<div class="logo text-center">
+					<a href="/">
+						<!-- replace logo here -->
+						<svg width="135px" height="29px" viewBox="0 0 199 30" version="1.1" xmlns="http://www.w3.org/2000/svg"
+							xmlns:xlink="http://www.w3.org/1999/xlink">
+							<g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-size="40"
+								font-family="AustinBold, Austin" font-weight="bold">
+								<g id="Group" transform="translate(-108.000000, -297.000000)" fill="#000000">
+									<text id="AVIATO">
+										<tspan x="108.94" y="325">MyShop</tspan>
+									</text>
+								</g>
+							</g>
+						</svg>
+					</a>
+				</div>
+			</div>
+			<div class="col-md-4 col-xs-12 col-sm-4">
+				<!-- Cart -->
+	
+				<ul class="top-menu text-right list-inline">
+					<li class="dropdown cart-nav dropdown-slide">
+						{% with total_items=cart|length %}
+          					{% if total_items > 0 %}
+						<a href="{% url 'cart:cart_detail' %}" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><i
+							class="tf-ion-android-cart"></i>Cart</a>
+							{{ total_items }} item{{ total_items|pluralize }}
+								{% else %}
+								<a href="{% url 'cart:cart_detail' %}" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><i
+									class="tf-ion-android-cart"></i>Cart</a> 0
+							{% endif %}
+							{% endwith %}
+						<div class="dropdown-menu cart-dropdown">
+							<!-- Cart Item -->
+							{% for item in cart %}
+								{% with product=item.product %}
+							<div class="media">
+							
+								<a class="pull-left" href="{{ product.get_absolute_url }}">
+									<img class="media-object" src="{% if product.image %}{{ product.image.url }}
+									{% else %}{% static 'img/no_image.png' %}{% endif %}">
+								  </a>
+								<div class="media-body">
+									<h4 class="media-heading"><a href="#!">{{ product.name }}</a></h4>
+									<div class="cart-price">
+										<span>{{ item.quantity }} x</span>
+										<span>{{ item.price }}</span>
+									</div>
+									<h5><strong>${{ item.total_price }}</strong></h5>
+								</div>
+								<form action="{% url 'cart:cart_remove' product.id %}" method="post">
+									<a href="#!" class="remove">
+										<button type="submit" style="border: 0px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Remove Product">
+											<i class="tf-ion-close"></i>
+										</button>
+									</a>								
+									{% csrf_token %}
+								  </form>
+								
+							</div><!-- / Cart Item -->
+								{% endwith %}
+							{% endfor %}
+
+							{% with total_items=cart|length %}
+							  {% if total_items > 0 %}
+							<div class="cart-summary">
+								<span>Total</span>
+								<span class="total-price">${{ cart.get_total_price }}</span>
+							</div>
+							<ul class="text-center cart-buttons">
+								<li><a href="{% url 'cart:cart_detail' %}" class="btn btn-small">View Cart</a></li>
+								<li><a href="{% url 'orders:order_create' %}" class="btn btn-small btn-solid-border">Checkout</a></li>
+							</ul>
+							
+						</div>
+						{% else %}
+							<div class="cart-summary">Your cart is currently empty</div>
+						{% endif %}
+						{% endwith %}
+
+					</li><!-- / Cart -->
+
+					<!-- Search -->
+					<li class="dropdown search dropdown-slide">
+						
+						<a href="#!" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><i
+								class="tf-ion-ios-search-strong"></i> Search</a>
+						<ul class="dropdown-menu search-dropdown">
+							<li>
+								<form action="{% url 'shop:search_results' %}" method="get"><input type="search" name="q" class="form-control" placeholder="Search..."></form>
+							</li>
+						</ul>
+					</li><!-- / Search -->
+
+				</ul><!-- / .nav .navbar-nav .navbar-right -->
+			</div>
+		</div>
+	</div>
+</section><!-- End Top Header Bar -->
+
+
+<!-- Main Menu Section -->
+<section class="menu">
+	<nav class="navbar navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<h2 class="menu-title">Main Menu</h2>
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+					aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+
+			</div><!-- / .navbar-header -->
+
+			<!-- Navbar Links -->
+			<div id="navbar" class="navbar-collapse collapse text-center">
+				<ul class="nav navbar-nav">
+
+					<!-- Home -->
+					<li class="dropdown ">
+						<a href="{% url 'shop:index' %}"><i
+							class="tf-ion-android-home" style="margin-right: 2px"></i>Home</a>
+					</li><!-- / Home -->
+					<li class="dropdown ">
+						<a href="{% url 'shop:product_list' %}"><i
+							class="tf-ion-android-cart" style="margin-right: 2px"></i>Shop</a>
+					</li><!-- / Home -->
+					<li class="dropdown ">
+						<a href="https://github.com/Tim204/Mishop"><i
+							class="tf-ion-social-github" style="margin-right: 2px"></i>Source Code</a>
+					</li><!-- / Home -->
+	
+				</ul><!-- / .nav .navbar-nav -->
+
+			</div>
+			<!--/.navbar-collapse -->
+		</div><!-- / .container -->
+	</nav>
+</section>
+
+{% block page-header %}{% endblock %}
+
+{% block page-content %}
+<div class="hero-slider">
+  <div class="slider-item th-fullpage hero-area" style="background-image: url(static/images/slider/console.webp);">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 text-center">
+          <p data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".1">PRODUCTS</p>
+          <h1 data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".5">Keeping you company<br> at your loneliest times.</h1>
+          <a data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".8" class="btn" href="{% url 'shop:product_list' %}">Shop Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slider-item th-fullpage hero-area" style="background-image: url(static/images/slider/headset2.webp);">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 text-left">
+          <p data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".1">PRODUCTS</p>
+          <h1 data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".5">Look less, <br>listen more.</h1>
+          <a data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".8" class="btn" href="{% url 'shop:product_list' %}">Shop Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slider-item th-fullpage hero-area" style="background-image: url(static/images/slider/vrset.jpg);">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 text-right">
+          <p data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".1">PRODUCTS</p>
+          <h1 data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".5">We make your virtual<br>dreams come to reality.</h1>
+          <a data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".8" class="btn" href="{% url 'shop:product_list' %}">Shop Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<section class="product-category section">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="title text-center">
+					<h2>Product Category</h2>
+				</div>
+			</div>
+			{% for category in categories %}
+			<div class="col-md-6">
+
+				<div class="category-box ">
+
+					<a href="{{ category.get_absolute_url }}">
+						<img src="{{ category.category_thumbnail.url }}" alt="" />
+						<div class="content">
+							<h3 style="color: #fff; font-weight: bolder;"><i class="tf-ion-pricetags" style="margin-right: 1px;"></i>{{ category.name}} </h3>
+							<!-- <p style="color: #fff">{{ category.category_description }} </p> -->
+						</div>
+					</a>	
+				</div>
+			</div>
+			{% endfor %}
+</section>
+
+<section class="products section bg-gray">
+	<div class="container">
+		<div class="row">
+			<div class="title text-center">
+				<h2>New Products</h2>
+			</div>
+		</div>
+		<div class="row">
+			
+			{% for product in new_products %}
+			<div class="col-md-4">
+				<div class="product-item">
+					<div class="product-thumb">
+						<!-- <span class="bage">Sale</span> -->
+						<img class="img-responsive" src="{{ product.image.url }}" alt="product-img" />
+						<div class="preview-meta">
+							<ul>
+								<li>
+									<a href="{{ product.get_absolute_url }}"><i class="tf-ion-ios-search-strong"></i></a>
+								</li>
+								
+							</ul>
+                      	</div>
+					</div>
+					<div class="product-content">
+						<h4><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></h4>
+						<p class="price"><i class="tf-ion-ios-pricetags"></i> ${{ product.price }}</p>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		
+		<!-- Modal -->
+		<!-- <div class="modal product-modal fade" id="product-modal">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<i class="tf-ion-close"></i>
+			</button>
+		  	<div class="modal-dialog " role="document">
+		    	<div class="modal-content">
+			      	<div class="modal-body">
+			        	<div class="row">
+			        		<div class="col-md-8 col-sm-6 col-xs-12">
+			        			<div class="modal-image">
+				        			<img class="img-responsive" src="images/shop/products/modal-product.jpg" alt="product-img" />
+			        			</div>
+			        		</div>
+			        		<div class="col-md-4 col-sm-6 col-xs-12">
+			        			<div class="product-short-details">
+			        				<h2 class="product-title">GM Pendant, Basalt Grey</h2>
+			        				<p class="product-price">$200</p>
+			        				<p class="product-short-description">
+			        					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem iusto nihil cum. Illo laborum numquam rem aut officia dicta cumque.
+			        				</p>
+			        				<a href="cart.html" class="btn btn-main">Add To Cart</a>
+			        				<a href="product-single.html" class="btn btn-transparent">View Product Details</a>
+			        			</div>
+			        		</div>
+			        	</div>
+			        </div>
+		    	</div>
+		  	</div>
+		</div> -->
+		<!-- /.modal -->
+
+		</div>
+	</div>
+</section>
+
+{% endblock %}
+
+
+
+{% block call-to-action %}
+
+{% endblock %}
+
+
+
+{% block footer %}
+
+
+<footer class="footer section text-center">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<ul class="social-media">
+					<li>
+						<a href="#">
+							<i class="tf-ion-social-facebook"></i>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<i class="tf-ion-social-instagram"></i>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<i class="tf-ion-social-twitter"></i>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<i class="tf-ion-social-pinterest"></i>
+						</a>
+					</li>
+				</ul>
+				<ul class="footer-menu text-uppercase">
+					<!-- <li>
+						<a href="contact.html">CONTACT</a>
+					</li> -->
+					<li>
+						<a href="{% url 'shop:product_list' %}">SHOP</a>
+					</li>
+					<!-- 
+					<li>
+						<a href="contact.html">PRIVACY POLICY</a>
+					</li> -->
+				</ul>
+				<p class="copyright-text">Copyright &copy;2022, Designed &amp; Developed by <a href="#">Timcoders</a></p>
+			</div>
+		</div>
+	</div>
+</footer>
+{% endblock %}
+
+    
+    <!-- 
+    Essential Scripts
+    =====================================-->
+		
+    <!-- Main jQuery -->
+    <script src="{% static 'plugins/jquery/dist/jquery.min.js' %}"></script>
+    <!-- Bootstrap 3.1 -->
+    <script src="{% static 'plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+    <!-- Bootstrap Touchpin -->
+    <script src="{% static 'plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js' %}"></script>
+    <!-- Instagram Feed Js -->
+    <script src="{% static 'plugins/instafeed/instafeed.min.js' %}"></script>
+    <!-- Video Lightbox Plugin -->
+    <script src="{% static 'plugins/ekko-lightbox/dist/ekko-lightbox.min.js' %}"></script>
+    <!-- Count Down Js -->
+    <script src="{% static 'plugins/syo-timer/build/jquery.syotimer.min.js' %}"></script>
+
+    <!-- slick Carousel -->
+    <script src="{% static 'plugins/slick/slick.min.js' %}"></script>
+    <script src="{% static 'plugins/slick/slick-animation.min.js' %}"></script>
+
+    <!-- Google Mapl -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC72vZw-6tGqFyRhhg5CkF2fqfILn2Tsw"></script>
+    <script
+      type="text/javascript"
+      src="{% static 'plugins/google-map/gmap.js' %}"
+    ></script>
+	<script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
+    <!-- Main Js File -->
+    <script src="{% static 'js/script.js' %}"></script>
+
+	<!-- Tootips -->
+	<script>
+		var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+		var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  		return new bootstrap.Tooltip(tooltipTriggerEl)
+		})
+	</script>
+
+  </body>
+  </html>
+
+  
+

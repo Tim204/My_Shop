@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+mysqlclient = "*"
+pillow = "*"
+django-bootstrap4 = "*"
+celery = "==5.2.6"
+django-bootstrap-v5 = "*"
+django-crispy-forms = "*"
+braintree = "==4.15.2"
+django-filter = "*"
+
+[dev-packages]
+autopep8 = "*"
+
+[requires]
+python_version = "3.9"
