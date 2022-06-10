@@ -10,5 +10,11 @@ Python and Django need to be installed
     pip install django
 ```
 
+Inside your virtual environment run:
+
+```bash
+    pip install -r Requirements.txt
+```
+
 ## Issues
 The hero-slider(carousel) on the index page might feel heavy on certain devices. Still trying to figure out the root cause of the issue.
