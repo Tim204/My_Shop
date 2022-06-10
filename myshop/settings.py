@@ -101,7 +101,7 @@ DATABASES = {
         'NAME': 'myshop',
         'HOST': 'localhost',
         'USER': 'root',
-        'PASSWORD': '@Neverwinter14'
+        'PASSWORD': '<your database password>'
 
     }
 }
@@ -164,9 +164,9 @@ CART_SESSION_ID = 'cart'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Braintree settings
-BRAINTREE_MERCHANT_ID = 'j9yyyz4sfpysfq5d'  # Merchant ID
-BRAINTREE_PUBLIC_KEY = 'nkrkfvxwqrfy4hm5'   # Public Key
-BRAINTREE_PRIVATE_KEY = '7ccf3d5dacca88ddc5551832abb54432'  # Private key
+BRAINTREE_MERCHANT_ID = ''  # Merchant ID
+BRAINTREE_PUBLIC_KEY = ''   # Public Key
+BRAINTREE_PRIVATE_KEY = ''  # Private key
 
 import braintree
 

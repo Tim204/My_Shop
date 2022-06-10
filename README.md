@@ -10,7 +10,7 @@ Python and Django need to be installed
     pip install django
 ```
 
-Inside your virtual environment run:
+To install dependencies run the following command inside your virtual environment:
 
 ```bash
     pip install -r Requirements.txt
