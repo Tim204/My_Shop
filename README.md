@@ -9,3 +9,6 @@ Python and Django need to be installed
 ```bash
     pip install django
 ```
+
+## Issues
+The hero-slider(carousel) on the index page might feel heavy on certain devices. Still trying to figure out the root cause of the issue.

@@ -222,10 +222,12 @@
                     {% endif %}
                     </tbody>
                   </table>
-
+                 
                    <!-- Attempt to insert Coupon form -->
                    {% if not cart.coupon %}
-                   <h4>Have a coupon?</h4>
+                  {% for coupon in coupons %}
+                   <h4>Enter the code "{{ coupon.code }}" for a {{coupon.discount}}% discount! </h4>
+                   {% endfor %}
                         <form action="{% url 'coupons:apply' %}" method="post">
                           
                        <span > {{ coupon_apply_form.code|as_crispy_field }}</span>
@@ -235,6 +237,7 @@
                     {% endif %}
                     
                     
+                
                     <!-- End of attempt -->
 
 
@@ -270,36 +273,6 @@
     {% endif %}
   {% endwith %}
 
-  <!-- TESTING COUPON BEFORE IMPLEMENTATION!!!! -->
-<!-- {% if cart.coupon %}
-  <tr class="subtotal">
-    <td></td>
-    <td colspan="4"></td>
-    <td class="num">${{ cart.get_total_price|floatformat:2 }}</td>
-  </tr>
-  <tr>
-    {%  with code=cart.coupon.code discount=cart.coupon.discount %}
-      <td>"{{ code }}" coupon ({{ discount }}% off)</td>
-    {% endwith %}
-    <td colspan="4"></td>
-    <td class="num neg">
-      - ${{ cart.get_discount|floatformat:2 }}
-    </td>
-  </tr>
-{% endif %}
-<tr class="total">
-  <td>total</td>
-  <td colspan="4"></td>
-  <td class="num">
-    ${{ cart.get_total_price_after_discount|floatformat:2 }}
-  </td>
-</tr>
-<p>Apply a coupon:</p>
-  <form action="{% url 'coupons:apply' %}" method="post">
-    {{ coupon_apply_form|crispy }}
-    <input type="submit" value="Apply">
-    {% csrf_token %}
-  </form> -->
   
 {% endblock %}
 

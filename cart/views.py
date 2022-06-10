@@ -7,6 +7,7 @@ from shop.models import Product
 from .cart import Cart
 from .forms import CartAddProductForm
 from coupons.forms import CouponApplyForm
+from coupons.models import Coupon
 
 
 @require_POST
@@ -43,8 +44,10 @@ def cart_detail(request):
                      'override': True}
         )
     coupon_apply_form = CouponApplyForm()
+    coupon = Coupon.objects.filter(active=True)
     context = {
         'cart': cart,
         'coupon_apply_form': coupon_apply_form,
+        'coupons': coupon,
     }
     return render(request, 'cart/detail.html', context)
