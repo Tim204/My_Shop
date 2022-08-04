@@ -23,5 +23,5 @@ Decreasing the number of images on the slide seems to lessen the problem
 
 **_NOTE:_**  In order to use the credit card payment system you are required to created a Braintree Sandbox account and internet connectivity whenever you try to perform a payment or else an exception will be raised.
 
-### Live Version
+## Live Version
 [Link to the live version of the project by clicking this link](https://myshop101.pythonanywhere.com/)
