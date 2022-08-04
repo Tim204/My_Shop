@@ -222,9 +222,12 @@
                     {% endif %}
                     </tbody>
                   </table>
+                  
+                   
                  
                    <!-- Attempt to insert Coupon form -->
                    {% if not cart.coupon %}
+                   {% if coupons %}
                   {% for coupon in coupons %}
                    <h4>Enter the code "{{ coupon.code }}" for a {{coupon.discount}}% discount! </h4>
                    {% endfor %}
@@ -234,6 +237,7 @@
                    <button type="submit" class="btn btn-main btn-sm " style="margin-bottom: 3vh;"><i class="tf-ion-log-in"></i> Apply Coupon</button>
                    {% csrf_token %}
                     </form>
+                    {% endif %}
                     {% endif %}
                     
                     

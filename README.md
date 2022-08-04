@@ -1,15 +1,16 @@
 # Project MyShop
 
+## Description
 MyShop is an ecommerce application designed in order to mimic a somewhat realistic real life online shoping experience.
 
-## Installation
+## Getting Started
 
-Python and Django need to be installed
+### Dependencies
 
-```bash
-    pip install django
-```
+* Python 3.9
+* Django 4.0
 
+### Installing
 To install dependencies run the following command inside your virtual environment:
 
 ```bash
@@ -18,3 +19,9 @@ To install dependencies run the following command inside your virtual environmen
 
 ## Issues
 The hero-slider(carousel) on the index page might feel heavy on certain devices. Still trying to figure out the root cause of the issue.
+Decreasing the number of images on the slide seems to lessen the problem
+
+**_NOTE:_**  In order to use the credit card payment system you are required to created a Braintree Sandbox account and internet connectivity whenever you try to perform a payment or else an exception will be raised.
+
+### Live Version
+[Link to the live version of the project by clicking this link](https://myshop101.pythonanywhere.com/)

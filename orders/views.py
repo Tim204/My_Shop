@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.http import HttpResponseRedirect
 from coupons.forms import CouponApplyForm
 from .models import OrderItem
 from cart.cart import Cart
